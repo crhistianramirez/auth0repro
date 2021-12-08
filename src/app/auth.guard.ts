@@ -42,7 +42,7 @@ export class AuthGuard implements CanActivate, CanLoad, CanActivateChild {
   ): Observable<boolean> {
     return this.auth.isAuthenticated$.pipe(
       tap((loggedIn) => {
-        console.log({loggedIn})
+        console.log({loggedIn, url: state.url})
         if (!loggedIn) {
           this.auth
             .buildAuthorizeUrl()

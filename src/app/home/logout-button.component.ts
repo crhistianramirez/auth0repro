@@ -14,6 +14,14 @@ export class LogoutButtonComponent implements OnInit {
   ngOnInit() {}
 
   logout() {
-    this.auth.logout({returnTo: callbackUri, federated: true});
+    this.auth
+      .buildLogoutUrl({ returnTo: callbackUri })
+      .pipe(
+        mergeMap(async (url) => {
+          await Browser.open({ url, windowName: '_self' });
+          this.auth.logout({ localOnly: true });
+        })
+      )
+      .subscribe();
   }
 }
